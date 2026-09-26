@@ -1,0 +1,37 @@
+name: Family Roads
+version: "1.0.0"
+slug: family_roads
+description: >-
+  Local road router for the family map. Covers Massachusetts, Connecticut,
+  Rhode Island, and New Hampshire and Vermont south of 43.45N. Points outside
+  that box stay on the public road service.
+url: https://github.com/Jster42/family-roads
+arch:
+  - amd64
+startup: services
+boot: auto
+init: false
+apparmor: false
+timeout: 120
+stage: stable
+ports:
+  "8002/tcp": 8002
+ports_description:
+  "8002/tcp": Road router used by the family map
+map:
+  - type: data
+    read_only: false
+    path: /custom_files
+environment:
+  use_tiles_ignore_pbf: "True"
+  build_elevation: "False"
+  build_admins: "False"
+  build_time_zones: "False"
+  build_transit: "False"
+  force_rebuild: "False"
+  serve_tiles: "True"
+  server_threads: "2"
+  build_tar: "True"
+watchdog: "tcp://[HOST]:[PORT:8002]"
+backup_exclude:
+  - "**/*.osm.pbf"
